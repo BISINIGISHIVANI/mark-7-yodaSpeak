@@ -1,11 +1,30 @@
-var textInput =document.querySelector("#text-area");
-var btnTranslate=document.querySelector("#translate-button");
-var textOutput=document.querySelector("#out-put");
+var btnPrimary=document.querySelector("#translate-button");
+var translateInput=document.querySelector("#translate-input");
+var translateOutput=document.querySelector("#translate-output");
 
-var serverURL=""
+var serverURL="https://api.funtranslations.com/translate/yoda.json"
+ 
 
-btnTranslate.addEventListener("click",clickHandler);
+    function getTranslationURL(input){
+    return serverURL+"?text="+input;
+}
 
-function clickHandler(){
+function errorHandler(error){
+    console.log("error occured",error);
 
 }
+
+function clickHandler(){
+    var inputData=translateInput.value;
+    fetch(getTranslationURL(inputData))
+    .then(response => response.json())
+    .then(json => {
+        var translatedText=json.contents.translated;
+        translateOutput.innerText=translatedText;
+    });
+   
+}
+btnPrimary.addEventListener("click",clickHandler);
+
+
+
